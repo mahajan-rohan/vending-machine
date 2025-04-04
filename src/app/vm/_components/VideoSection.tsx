@@ -15,7 +15,10 @@ function VideoSection({ socket }: { socket: ReturnType<typeof io> }) {
   const myVideoRef = useRef<HTMLVideoElement | null>(null);
   const remoteVideoRef = useRef<HTMLVideoElement | null>(null);
   const { medicinesList } = useVendingMachine();
-
+  const [prescribedMedicines, setPrescribedMedicines] = useState<{
+    name: string;
+    quantity: number;
+  }[]>([]);
   // useEffect(() => {
   //   socket.on("call-ended", () => {
   //     console.log("call ended");
@@ -89,6 +92,11 @@ function VideoSection({ socket }: { socket: ReturnType<typeof io> }) {
           // Update UI to reflect that the call has ended
           setIsConnected(false);
           setIsWaiting(true);
+        });
+
+        socket.on("new-prescribed-medicines", (medicines) => {
+          console.log("Medicines received from doctor: ", medicines);
+          setPrescribedMedicines(medicines); // Update the state with the prescribed medicines
         });
 
         // Handle the remote stream

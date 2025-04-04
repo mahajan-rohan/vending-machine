@@ -119,10 +119,11 @@ export default function PatientRequests() {
     }
   };
 
-  const subscribeMed = async (arr : {arr : []}) => {
-    console.log("data", arr);
-    
-  }
+  const subscribeMed = (medicines: { name: string, quantity: number }[]) => {
+    console.log("Prescribed Medicines: ", medicines);
+    socket?.emit("prescribe-medicines", medicines); // Emit the prescribed medicines data to the backend or vending machine interface
+  };
+  
 
   return (
     <div>
